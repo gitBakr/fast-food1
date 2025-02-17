@@ -4,9 +4,7 @@ interface Ingredient {
 }
 
 interface MenuCardProps {
-  id: string;
   name: string;
-  type: string;
   image: string;
   price: {
     base: number;
@@ -15,27 +13,15 @@ interface MenuCardProps {
       price: number;
     }[];
   };
-  category: string;
   description: string;
-  ingredients: Ingredient[];
-  isVegetarian?: boolean;
-  isSpicy?: boolean;
-  calories?: number;
-  onOrder: (sandwich: { type: string; name: string; price: number }) => void;
+  onOrder: () => void;
 }
 
 const MenuCard = ({ 
-  id, 
   name, 
-  type, 
   image, 
   price, 
-  category, 
-  description, 
-  ingredients,
-  isVegetarian,
-  isSpicy,
-  calories,
+  description,
   onOrder 
 }: MenuCardProps) => {
   return (
@@ -49,48 +35,13 @@ const MenuCard = ({
         <div className="absolute top-2 right-2 bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-medium">
           À partir de {price.base.toFixed(2)}€
         </div>
-        {isVegetarian && (
-          <div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs">
-            Végétarien
-          </div>
-        )}
       </div>
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-          {isSpicy && (
-            <span className="text-red-500">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                {/* Icône piment */}
-              </svg>
-            </span>
-          )}
         </div>
-        <p className="text-sm text-amber-600 mb-2">{category}</p>
         <p className="text-gray-600 text-sm mb-3">{description}</p>
         
-        {ingredients.length > 0 && (
-          <div className="mb-4">
-            <p className="text-xs text-gray-500 mb-1">Ingrédients :</p>
-            <div className="flex flex-wrap gap-1">
-              {ingredients.map((ingredient, index) => (
-                <span 
-                  key={index}
-                  className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full"
-                >
-                  {ingredient.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {calories && (
-          <p className="text-xs text-gray-500 mb-4">
-            {calories} calories
-          </p>
-        )}
-
         <div className="mb-4 bg-gray-50 rounded-lg p-3">
           <div className="flex justify-between items-center mb-2">
             <span className="text-gray-700">Prix de base</span>
@@ -113,7 +64,7 @@ const MenuCard = ({
         </div>
 
         <button
-          onClick={() => onOrder({ type, name, price: price.base })}
+          onClick={onOrder}
           className="w-full bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors flex items-center justify-center gap-2"
         >
           <span>Commander</span>

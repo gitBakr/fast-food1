@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 import OrderModal from '../components/OrderModal';
 
-const SPECIALITES = [
+interface MenuItem {
+  id: string;
+  name: string;
+  type: string;
+  image: string;
+  price: {
+    base: number;
+    supplements: { name: string; price: number; }[];
+  };
+  category: string;
+  description: string;
+}
+
+const SPECIALITES: MenuItem[] = [
   {
     id: 'mega-burger',
     name: 'Méga Burger',
@@ -67,9 +80,9 @@ const SPECIALITES = [
 
 const Specialites = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  const handleOpenModal = (item) => {
+  const handleOpenModal = (item: MenuItem) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };

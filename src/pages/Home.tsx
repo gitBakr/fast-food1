@@ -3,6 +3,19 @@ import Hero from '../components/Hero';
 import MenuCard from '../components/MenuCard';
 import OrderModal from '../components/OrderModal';
 
+interface MenuItem {
+  id: string;
+  name: string;
+  type: string;
+  image: string;
+  price: {
+    base: number;
+    supplements: { name: string; price: number; }[];
+  };
+  category: string;
+  description: string;
+}
+
 const featuredItems = [
   {
     id: 'classique',
@@ -85,9 +98,9 @@ const featuredItems = [
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  const handleOpenModal = (item) => {
+  const handleOpenModal = (item: MenuItem) => {
     setSelectedItem(item);
     setIsModalOpen(true);
   };
