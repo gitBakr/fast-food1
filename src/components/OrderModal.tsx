@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ConfirmationModal from './ConfirmationModal';
 import { MenuItem } from '../types/menu';
+import { useTranslation } from 'react-i18next';
+import { isRTL } from '../i18n';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -57,6 +59,8 @@ enum OrderStep {
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
+  const { t, i18n } = useTranslation();
+  const isRtl = isRTL(i18n.language);
   if (!isOpen || !item) return null;
 
   const [quantity, setQuantity] = useState(1);
@@ -74,11 +78,11 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
   const [orderDetails, setOrderDetails] = useState<any>(null);
 
   const steps = [
-    { title: "Livraison et quantité", color: "amber" },
-    { title: "Personnalisation", color: "amber" },
-    { title: "Boissons", color: "amber" },
-    { title: "Desserts", color: "amber" },
-    { title: "Vos informations", color: "amber" }
+    { title: t('orderModal.delivery.title'), color: "amber" },
+    { title: t('orderModal.customization.title'), color: "amber" },
+    { title: t('orderModal.drinks.title'), color: "amber" },
+    { title: t('orderModal.desserts.title'), color: "amber" },
+    { title: t('orderModal.customer_info.title'), color: "amber" }
   ];
 
   const fillTestData = () => {
@@ -208,12 +212,14 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
       case OrderStep.DELIVERY_QUANTITY:
         return (
           <div className="p-4 bg-amber-50 rounded-lg space-y-4">
-            <h3 className="text-lg font-semibold text-amber-800 mb-4">1. Choix de la livraison et quantité</h3>
+            <h3 className="text-lg font-semibold text-amber-800 mb-4">
+              {t('orderModal.delivery.title')}
+            </h3>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Type de livraison
+                  {t('orderModal.delivery.type')}
                 </label>
                 <div className="flex flex-col space-y-2">
                   <label className="flex items-center">
@@ -224,7 +230,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                       onChange={(e) => setDeliveryType(e.target.value as DeliveryType)}
                       className="mr-2"
                     />
-                    Sur place
+                    {t('orderModal.delivery.onSite')}
                   </label>
                   <label className="flex items-center">
                     <input
@@ -234,7 +240,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                       onChange={(e) => setDeliveryType(e.target.value as DeliveryType)}
                       className="mr-2"
                     />
-                    À emporter
+                    {t('orderModal.delivery.takeaway')}
                   </label>
                   <label className="flex items-center">
                     <input
@@ -253,7 +259,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Quantité
                 </label>
-                <div className="flex items-center space-x-2">
+                <div className={`flex items-center space-x-2 ${isRtl ? 'space-x-reverse' : ''}`}>
                   <button 
                     type="button"
                     className="px-3 py-1 border rounded-md"
@@ -471,12 +477,12 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                   onClick={fillTestData}
                   className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md"
                 >
-                  Données Test
+                  {t('orderModal.test_data')}
                 </button>
                 <button 
                   onClick={onClose}
                   className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full text-xl font-bold"
-                  aria-label="Fermer"
+                  aria-label={t('common.close')}
                 >
                   ×
                 </button>
@@ -521,20 +527,20 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
               {currentStep === OrderStep.CUSTOMER_INFO && (
                 <div className="mb-4 space-y-2">
                   <div className="flex justify-between">
-                    <p className="text-gray-600">Prix unitaire:</p>
+                    <p className="text-gray-600">{t('orderModal.summary.unit_price')}:</p>
                     <p className="text-gray-600">{item.price.base.toFixed(2)}€</p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="text-gray-600">Quantité:</p>
+                    <p className="text-gray-600">{t('orderModal.summary.quantity')}:</p>
                     <p className="text-gray-600">× {quantity}</p>
                   </div>
                   <div className="flex justify-between font-medium">
-                    <p className="text-gray-600">Sous-total:</p>
+                    <p className="text-gray-600">{t('orderModal.summary.subtotal')}:</p>
                     <p className="text-gray-600">{(item.price.base * quantity).toFixed(2)}€</p>
                   </div>
                   {deliveryType === 'livraison' && (
                     <div className="flex justify-between">
-                      <p className="text-gray-600">Frais de livraison:</p>
+                      <p className="text-gray-600">{t('orderModal.summary.delivery_fee')}:</p>
                       <p className="text-gray-600">+ {FRAIS_LIVRAISON.toFixed(2)}€</p>
                     </div>
                   )}
@@ -563,7 +569,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                     return null;
                   })}
                   <div className="flex justify-between text-xl font-bold pt-2 border-t">
-                    <p>Total:</p>
+                    <p>{t('orderModal.summary.total')}:</p>
                     <p>{calculateTotal()}€</p>
                   </div>
                 </div>
@@ -576,14 +582,16 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                     onClick={handleBack}
                     className="flex-1 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium"
                   >
-                    Retour
+                    {t('common.back')}
                   </button>
                 )}
                 <button 
                   type="submit"
                   className="flex-1 bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 font-bold text-lg shadow-md transition-colors"
                 >
-                  {currentStep === OrderStep.CUSTOMER_INFO ? 'Confirmer la commande' : 'Suivant'}
+                  {currentStep === OrderStep.CUSTOMER_INFO 
+                    ? t('common.confirm')
+                    : t('common.next')}
                 </button>
               </div>
             </div>

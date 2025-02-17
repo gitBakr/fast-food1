@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import OrderModal from '../components/OrderModal';
+import { useTranslation } from 'react-i18next';
 
 interface MenuItem {
   id: string;
@@ -139,6 +140,7 @@ const MENU_ITEMS = [
 ];
 
 const Menu = () => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
@@ -155,7 +157,9 @@ const Menu = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Notre Menu</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">
+          {t('menu.title')}
+        </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {MENU_ITEMS.map((item) => (
@@ -170,13 +174,13 @@ const Menu = () => {
                 <p className="text-gray-600 mt-1">{item.description}</p>
                 <div className="mt-4 flex justify-between items-center">
                   <span className="text-xl font-bold text-amber-600">
-                    {item.price.base.toFixed(2)}€
+                    {t('menu.price_from')} {item.price.base.toFixed(2)}{t('menu.currency')}
                   </span>
                   <button
                     onClick={() => handleOpenModal(item)}
                     className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
                   >
-                    Commander
+                    {t('common.order')}
                   </button>
                 </div>
               </div>

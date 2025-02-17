@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Hero from '../components/Hero';
 import MenuCard from '../components/MenuCard';
 import OrderModal from '../components/OrderModal';
+import WhyUs from '../components/WhyUs';
 
 interface MenuItem {
   id: string;
@@ -111,7 +112,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
+    <div className="flex-1 bg-gradient-to-b from-amber-50 to-white">
       <Hero />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -125,40 +126,9 @@ const Home = () => {
             />
           ))}
         </div>
-
-        <div className="mt-16 bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Pourquoi nous choisir ?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-600 text-white mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Ingrédients Frais</h3>
-              <p className="text-gray-500">Des produits locaux et de saison</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-600 text-white mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Préparation Minute</h3>
-              <p className="text-gray-500">Chaque sandwich préparé à la commande</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-600 text-white mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Livraison Rapide</h3>
-              <p className="text-gray-500">Livraison en 30 minutes ou moins</p>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <WhyUs />
 
       <OrderModal 
         isOpen={isModalOpen}

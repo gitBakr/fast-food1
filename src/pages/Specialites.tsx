@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import OrderModal from '../components/OrderModal';
+import { useTranslation } from 'react-i18next';
 
 interface MenuItem {
   id: string;
@@ -79,6 +80,7 @@ const SPECIALITES: MenuItem[] = [
 ];
 
 const Specialites = () => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
@@ -95,8 +97,12 @@ const Specialites = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Nos Spécialités</h1>
-        <p className="text-lg text-gray-600 mb-8">Découvrez nos créations uniques et gourmandes</p>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          {t('specialties.title')}
+        </h1>
+        <p className="text-lg text-gray-600 mb-8">
+          {t('specialties.subtitle')}
+        </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {SPECIALITES.map((item) => (
@@ -109,7 +115,7 @@ const Specialites = () => {
                 />
                 <div className="absolute top-4 right-4">
                   <span className="bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    {item.category}
+                    {t(`specialties.categories.${item.type}`)}
                   </span>
                 </div>
               </div>
@@ -119,14 +125,14 @@ const Specialites = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-2xl font-bold text-amber-600">
-                      {item.price.base.toFixed(2)}€
+                      {item.price.base.toFixed(2)}{t('menu.currency')}
                     </span>
                   </div>
                   <button
                     onClick={() => handleOpenModal(item)}
                     className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors font-semibold"
                   >
-                    Commander
+                    {t('common.order')}
                   </button>
                 </div>
               </div>
