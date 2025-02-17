@@ -1,8 +1,3 @@
-interface Ingredient {
-  name: string;
-  icon?: string;
-}
-
 interface MenuCardProps {
   name: string;
   image: string;

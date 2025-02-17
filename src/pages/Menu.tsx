@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import OrderModal from '../components/OrderModal';
 
 interface MenuItem {

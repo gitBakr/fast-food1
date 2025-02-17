@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import ConfirmationModal from './ConfirmationModal';
+import { MenuItem } from '../types/menu';
 
 interface OrderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  item?: {
-    name: string;
-    price: {
-      base: number;
-      supplements?: { name: string; price: number; }[];
-    };
-    description: string;
-    image: string;
-  };
+  item?: MenuItem | null;
 }
 
 type DeliveryType = 'surplace' | 'emporter' | 'livraison';
