@@ -1,131 +1,132 @@
+import React, { useState } from 'react';
+import OrderModal from '../components/OrderModal';
+
+const SPECIALITES = [
+  {
+    id: 'mega-burger',
+    name: 'Méga Burger',
+    type: 'burger',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+    price: {
+      base: 14.50,
+      supplements: [
+        { name: 'Double viande', price: 3.00 },
+        { name: 'Extra fromage', price: 1.50 },
+        { name: 'Bacon', price: 2.00 }
+      ]
+    },
+    category: 'Burgers',
+    description: 'Double steak haché, cheddar, bacon, oignons caramélisés, sauce spéciale'
+  },
+  {
+    id: 'club-deluxe',
+    name: 'Club Deluxe',
+    type: 'club',
+    image: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821',
+    price: {
+      base: 12.90,
+      supplements: [
+        { name: 'Double poulet', price: 2.50 },
+        { name: 'Avocat', price: 2.00 }
+      ]
+    },
+    category: 'Clubs',
+    description: 'Triple étage avec poulet grillé, bacon, avocat, tomates, salade'
+  },
+  {
+    id: 'wrap-supreme',
+    name: 'Wrap Suprême',
+    type: 'wrap',
+    image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f',
+    price: {
+      base: 11.50,
+      supplements: [
+        { name: 'Double garniture', price: 2.50 },
+        { name: 'Sauce supplémentaire', price: 0.50 }
+      ]
+    },
+    category: 'Wraps',
+    description: 'Poulet croustillant, légumes frais, sauce caesar, parmesan'
+  },
+  {
+    id: 'panini-gourmet',
+    name: 'Panini Gourmet',
+    type: 'panini',
+    image: 'https://images.unsplash.com/photo-1539252554453-80ab65ce3586',
+    price: {
+      base: 10.90,
+      supplements: [
+        { name: 'Extra mozzarella', price: 2.00 },
+        { name: 'Pesto', price: 1.00 }
+      ]
+    },
+    category: 'Paninis',
+    description: 'Mozzarella di bufala, tomates séchées, jambon de Parme, roquette'
+  }
+];
+
 const Specialites = () => {
-  const specialites = [
-    {
-      name: "Le Méditerranéen",
-      image: "https://images.unsplash.com/photo-1628191010210-a59de33e5941",
-      price: 12.50,
-      description: "Pain pita, falafels maison, houmous, légumes grillés, sauce tahini",
-      ingredients: ["Falafels", "Houmous", "Aubergines grillées", "Tomates", "Concombres", "Sauce tahini"],
-      tags: ["Végétarien", "Méditerranéen"]
-    },
-    {
-      name: "L'Italien",
-      image: "https://images.unsplash.com/photo-1621800043295-a73fe2f76e2c",
-      price: 13.50,
-      description: "Focaccia maison, jambon de Parme, mozzarella, roquette, pesto basilic",
-      ingredients: ["Jambon de Parme", "Mozzarella", "Roquette", "Tomates séchées", "Pesto basilic"],
-      tags: ["Italien", "Signature"]
-    },
-    {
-      name: "Le New-Yorkais",
-      image: "https://images.unsplash.com/photo-1550507992-eb63ffee0847",
-      price: 14.50,
-      description: "Pain de seigle, pastrami, pickles maison, moutarde à l'ancienne",
-      ingredients: ["Pastrami", "Cornichons", "Oignons caramélisés", "Moutarde à l'ancienne"],
-      tags: ["Américain", "Signature"]
-    },
-    {
-      name: "Le Mexicain",
-      image: "https://images.unsplash.com/photo-1628191010210-a59de33e5941",
-      price: 11.50,
-      description: "Wrap, poulet mariné, guacamole, haricots rouges, sauce piquante",
-      ingredients: ["Poulet épicé", "Guacamole", "Haricots rouges", "Maïs", "Sauce chipotle"],
-      tags: ["Mexicain", "Épicé"]
-    }
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Nos Spécialités</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Découvrez nos créations uniques, inspirées des cuisines du monde entier
-          </p>
-        </div>
-
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Nos Spécialités</h1>
+        <p className="text-lg text-gray-600 mb-8">Découvrez nos créations uniques et gourmandes</p>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {specialites.map((specialite, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="relative h-64">
-                <img
-                  src={specialite.image}
-                  alt={specialite.name}
-                  className="w-full h-full object-cover"
+          {SPECIALITES.map((item) => (
+            <div key={item.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div className="relative">
+                <img 
+                  src={item.image} 
+                  alt={item.name}
+                  className="w-full h-64 object-cover"
                 />
-                <div className="absolute top-4 right-4 bg-amber-500 text-white px-3 py-1 rounded-full">
-                  {specialite.price.toFixed(2)}€
+                <div className="absolute top-4 right-4">
+                  <span className="bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    {item.category}
+                  </span>
                 </div>
               </div>
-              
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{specialite.name}</h2>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {specialite.tags.map((tag, tagIndex) => (
-                    <span 
-                      key={tagIndex}
-                      className="bg-amber-100 text-amber-800 text-sm px-3 py-1 rounded-full"
-                    >
-                      {tag}
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{item.name}</h3>
+                <p className="text-gray-600 mb-4">{item.description}</p>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="text-2xl font-bold text-amber-600">
+                      {item.price.base.toFixed(2)}€
                     </span>
-                  ))}
+                  </div>
+                  <button
+                    onClick={() => handleOpenModal(item)}
+                    className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors font-semibold"
+                  >
+                    Commander
+                  </button>
                 </div>
-
-                <p className="text-gray-600 mb-4">{specialite.description}</p>
-                
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Ingrédients :</h3>
-                  <ul className="list-disc list-inside text-gray-600">
-                    {specialite.ingredients.map((ingredient, ingredientIndex) => (
-                      <li key={ingredientIndex}>{ingredient}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button className="w-full bg-amber-600 text-white py-3 px-4 rounded-md hover:bg-amber-700 transition-colors">
-                  Commander
-                </button>
               </div>
             </div>
           ))}
         </div>
-
-        <div className="mt-16 bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Pourquoi nos spécialités sont uniques ?
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-100 text-amber-600 mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Ingrédients Premium</h3>
-              <p className="text-gray-600">Sélectionnés avec soin auprès de producteurs locaux</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-100 text-amber-600 mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Recettes Originales</h3>
-              <p className="text-gray-600">Créées par nos chefs passionnés</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-md bg-amber-100 text-amber-600 mb-4">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Préparation Minute</h3>
-              <p className="text-gray-600">Chaque sandwich est préparé à la commande</p>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <OrderModal 
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        item={selectedItem}
+      />
     </div>
   );
 };

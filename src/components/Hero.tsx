@@ -8,30 +8,28 @@ const Hero = () => {
           <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block">Louez la voiture de</span>
-                <span className="block text-primary-600">vos rêves</span>
+                <span className="block">Découvrez nos</span>
+                <span className="block text-amber-600">délicieux sandwichs</span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Découvrez notre sélection de véhicules haut de gamme pour tous vos besoins. Des prix compétitifs, un service de qualité et une expérience client exceptionnelle.
+                Des sandwichs artisanaux préparés avec des ingrédients frais et locaux. Une explosion de saveurs dans chaque bouchée.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
                   <Link
-                    to="/cars"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 md:py-4 md:text-lg md:px-10"
+                    to="/menu"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 md:py-4 md:text-lg md:px-10"
                   >
-                    Voir nos véhicules
+                    Voir notre menu
                   </Link>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <a
-                    href="https://wa.me/33612345678?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20la%20location%20de%20véhicules"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-primary-100 hover:bg-primary-200 md:py-4 md:text-lg md:px-10"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to="/menu"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-amber-700 bg-amber-100 hover:bg-amber-200 md:py-4 md:text-lg md:px-10"
                   >
-                    Nous contacter
-                  </a>
+                    Commander
+                  </Link>
                 </div>
               </div>
             </div>
@@ -41,8 +39,8 @@ const Hero = () => {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-          alt="Voiture de luxe"
+          src="https://images.unsplash.com/photo-1509722747041-616f39b57569"
+          alt="Sandwich artisanal"
         />
       </div>
     </div>

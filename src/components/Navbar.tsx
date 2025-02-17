@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ReservationModal from './ReservationModal';
+import OrderModal from './OrderModal';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Fonction pour fermer le menu
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -12,7 +17,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
-              <Link to="/" className="flex items-center">
+              <Link to="/" className="flex items-center" onClick={closeMenu}>
                 <span className="text-2xl font-extrabold text-[#FF4C4C]">WAEL</span>
                 <span className="text-2xl font-extrabold ml-2 text-[#25D366]">LE BOSS</span>
               </Link>
@@ -24,16 +29,16 @@ const Navbar = () => {
                   Accueil
                 </Link>
                 <Link
-                  to="/cars"
+                  to="/menu"
                   className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
                 >
-                  Véhicules
+                  Menu
                 </Link>
                 <Link
-                  to="/services"
+                  to="/specialites"
                   className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
                 >
-                  Services
+                  Spécialités
                 </Link>
                 <Link
                   to="/about"
@@ -51,10 +56,10 @@ const Navbar = () => {
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:items-center">
               <Link 
-                to="/cars"
-                className="bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700 transition-colors duration-200"
+                to="/menu"
+                className="bg-amber-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-amber-700 transition-colors duration-200"
               >
-                Réserver maintenant
+                Commander maintenant
               </Link>
             </div>
             <div className="flex items-center sm:hidden">
@@ -80,19 +85,39 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="sm:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              <Link to="/" className="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+              <Link 
+                to="/" 
+                className="bg-primary-50 border-primary-500 text-primary-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                onClick={closeMenu}
+              >
                 Accueil
               </Link>
-              <Link to="/cars" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-                Véhicules
+              <Link 
+                to="/menu" 
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                onClick={closeMenu}
+              >
+                Menu
               </Link>
-              <Link to="/services" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
-                Services
+              <Link 
+                to="/specialites" 
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                onClick={closeMenu}
+              >
+                Spécialités
               </Link>
-              <Link to="/about" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+              <Link 
+                to="/about" 
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                onClick={closeMenu}
+              >
                 À propos
               </Link>
-              <Link to="/contact" className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+              <Link 
+                to="/contact" 
+                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                onClick={closeMenu}
+              >
                 Contact
               </Link>
             </div>
@@ -100,11 +125,9 @@ const Navbar = () => {
         )}
       </nav>
 
-      <ReservationModal
+      <OrderModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        carName="Sélectionnez un véhicule"
-        pricePerDay={0}
       />
     </>
   );
