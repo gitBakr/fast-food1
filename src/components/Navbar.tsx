@@ -1,15 +1,36 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import OrderModal from './OrderModal';
 
+const LANGUAGES = [
+  {
+    code: 'fr',
+    name: 'Français',
+    flag: '🇫🇷'
+  },
+  {
+    code: 'en',
+    name: 'English',
+    flag: '🇬🇧'
+  },
+  {
+    code: 'ar',
+    name: 'العربية',
+    flag: '🇸🇦'
+  }
+];
+
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setIsLangMenuOpen(false);
   };
 
   // Fonction pour fermer le menu
@@ -17,82 +38,87 @@ const Navbar = () => {
     setIsMenuOpen(false);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
-      <nav className="bg-indigo-100 shadow-lg">
+      <nav className="bg-indigo-100 shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex">
-              <Link to="/" className="flex items-center" onClick={closeMenu}>
-                <span className="text-2xl font-extrabold text-[#FF4C4C]">{t('navbar.brand.first')}</span>
-                <span className="text-2xl font-extrabold ml-2 text-[#25D366]">{t('navbar.brand.second')}</span>
-              </Link>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                <Link
-                  to="/"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
+            <div className="flex items-center gap-8">
+              <button 
+                onClick={handleLogoClick}
+                className="flex items-center focus:outline-none"
+              >
+                <span className="text-2xl font-extrabold text-[#FF4C4C]">
+                  {t('navbar.brand.first')}
+                </span>
+                <span className="text-2xl font-extrabold ml-2 text-[#25D366]">
+                  {t('navbar.brand.second')}
+                </span>
+              </button>
+
+              {/* Sélecteur de langue avec dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-white transition-colors"
                 >
-                  {t('navbar.home')}
-                </Link>
-                <Link
-                  to="/menu"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
-                >
-                  {t('navbar.menu')}
-                </Link>
-                <Link
-                  to="/specialites"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
-                >
-                  {t('navbar.specialties')}
-                </Link>
-                <Link
-                  to="/about"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
-                >
-                  {t('navbar.about')}
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-primary-600 border-b-2 border-transparent hover:border-primary-600"
-                >
-                  {t('navbar.contact')}
-                </Link>
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-6 w-6" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" 
+                    />
+                  </svg>
+                </button>
+
+                {isLangMenuOpen && (
+                  <div className="absolute top-full mt-1 bg-white rounded-lg shadow-lg py-2 w-40 z-50">
+                    {LANGUAGES.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => changeLanguage(lang.code)}
+                        className={`w-full px-4 py-2 text-left flex items-center gap-2 hover:bg-gray-100 ${
+                          i18n.language === lang.code ? 'bg-amber-50' : ''
+                        }`}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-            <div className="hidden sm:flex sm:items-center sm:gap-4">
-              <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg shadow-sm">
-                <button
-                  onClick={() => changeLanguage('fr')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    i18n.language === 'fr' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                  }`}
-                >
-                  FR
-                </button>
-                <button
-                  onClick={() => changeLanguage('en')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    i18n.language === 'en' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                  }`}
-                >
-                  EN
-                </button>
-                <button
-                  onClick={() => changeLanguage('ar')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    i18n.language === 'ar' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                  }`}
-                >
-                  عربي
-                </button>
-              </div>
+
+            {/* Menu de navigation */}
+            <div className="hidden sm:flex sm:items-center sm:space-x-8">
+              <Link to="/" className="text-gray-900 hover:text-primary-600">
+                {t('navbar.home')}
+              </Link>
+              <Link to="/menu" className="text-gray-500 hover:text-primary-600">
+                {t('navbar.menu')}
+              </Link>
+              <Link to="/specialites" className="text-gray-500 hover:text-primary-600">
+                {t('navbar.specialties')}
+              </Link>
+              <Link to="/about" className="text-gray-500 hover:text-primary-600">
+                {t('navbar.about')}
+              </Link>
+              <Link to="/contact" className="text-gray-500 hover:text-primary-600">
+                {t('navbar.contact')}
+              </Link>
 
               <Link 
                 to="/menu"
@@ -159,39 +185,6 @@ const Navbar = () => {
               >
                 {t('navbar.contact')}
               </Link>
-
-              <div className="flex justify-center space-x-2 py-2 border-t border-gray-200">
-                <button
-                  onClick={() => changeLanguage('fr')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium ${
-                    i18n.language === 'fr' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  FR
-                </button>
-                <button
-                  onClick={() => changeLanguage('en')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium ${
-                    i18n.language === 'en' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  EN
-                </button>
-                <button
-                  onClick={() => changeLanguage('ar')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium ${
-                    i18n.language === 'ar' 
-                      ? 'bg-amber-600 text-white' 
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  عربي
-                </button>
-              </div>
             </div>
           </div>
         )}

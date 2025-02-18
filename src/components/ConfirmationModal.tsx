@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, orderDetails }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -27,41 +29,43 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
             </div>
           </div>
           
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Commande Confirmée !</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            {t('confirmation.title')}
+          </h2>
           
           <div className="bg-amber-50 p-4 rounded-lg mb-4">
             <p className="text-lg font-medium text-amber-800">
-              Merci {orderDetails.clientName} !
+              {t('confirmation.thank_you', { name: orderDetails.clientName })}
             </p>
             <p className="text-sm text-amber-700 mt-1">
-              Numéro de commande: #{orderDetails.orderNumber}
+              {t('confirmation.order_number', { number: orderDetails.orderNumber })}
             </p>
           </div>
 
           <div className="space-y-3 text-left mb-6">
             <div className="flex justify-between">
-              <span className="text-gray-600">Type de commande:</span>
+              <span className="text-gray-600">{t('confirmation.delivery_type')}:</span>
               <span className="font-medium">{orderDetails.deliveryType}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Montant total:</span>
+              <span className="text-gray-600">{t('confirmation.total')}:</span>
               <span className="font-medium">{orderDetails.totalPrice}€</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Temps estimé:</span>
+              <span className="text-gray-600">{t('confirmation.estimated_time')}:</span>
               <span className="font-medium">{orderDetails.estimatedTime}</span>
             </div>
           </div>
 
           <p className="text-gray-600 mb-6">
-            Vous recevrez bientôt un SMS de confirmation avec les détails de votre commande.
+            {t('confirmation.sms_notification')}
           </p>
 
           <button
             onClick={onClose}
             className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 font-bold text-lg shadow-md transition-colors"
           >
-            Fermer
+            {t('common.close')}
           </button>
         </div>
       </div>

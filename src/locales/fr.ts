@@ -9,13 +9,13 @@ export default {
   menu: {
     title: "Notre Menu",
     popular: "Nos sandwichs populaires",
+    price_from: "À partir de",
+    currency: "€",
     categories: {
       classics: "Sandwichs Classiques",
       vegetarian: "Végétariens",
       specialties: "Spécialités"
-    },
-    price_from: "À partir de",
-    currency: "€"
+    }
   },
   specialties: {
     title: "Nos Spécialités",
@@ -98,15 +98,35 @@ export default {
     }
   },
   menuItems: {
-    classic: {
+    classique: {
       name: "Le Classique",
       description: "Jambon, fromage, salade, tomates, mayonnaise maison",
-      category: "Sandwichs Classiques"
+      category: "Sandwichs Classiques",
+      supplements: {
+        "Double viande": "Double viande",
+        "Fromage supplémentaire": "Fromage supplémentaire",
+        "Bacon": "Bacon"
+      }
     },
-    vegetarian: {
+    vegetarien: {
       name: "Le Végétarien",
       description: "Légumes grillés, houmous, roquette, sauce tahini",
-      category: "Végétariens"
+      category: "Végétariens",
+      supplements: {
+        "Double portion légumes": "Double portion légumes",
+        "Avocat": "Avocat",
+        "Fromage végétal": "Fromage végétal"
+      }
+    },
+    gourmet: {
+      name: "Le Gourmet",
+      description: "Poulet grillé, avocat, bacon, tomates séchées, sauce spéciale",
+      category: "Spécialités",
+      supplements: {
+        "Double poulet": "Double poulet",
+        "Extra avocat": "Extra avocat",
+        "Double bacon": "Double bacon"
+      }
     },
     chicken: {
       name: "Le Chicken Deluxe",
@@ -187,5 +207,14 @@ export default {
       twitter: "Twitter"
     },
     rights: "© 2024 Fast Food. Tous droits réservés."
+  },
+  confirmation: {
+    title: "Commande Confirmée !",
+    thank_you: "Merci {{name}} !",
+    order_number: "Numéro de commande : #{{number}}",
+    delivery_type: "Type de commande",
+    total: "Montant total",
+    estimated_time: "Temps estimé",
+    sms_notification: "Vous recevrez bientôt un SMS de confirmation avec les détails de votre commande"
   }
 }; 

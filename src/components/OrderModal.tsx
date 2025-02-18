@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ConfirmationModal from './ConfirmationModal';
 import { MenuItem } from '../types/menu';
 import { useTranslation } from 'react-i18next';
@@ -61,21 +61,75 @@ enum OrderStep {
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
   const { t, i18n } = useTranslation();
   const isRtl = isRTL(i18n.language);
-  if (!isOpen || !item) return null;
 
-  const [quantity, setQuantity] = useState(1);
+  // Tous les états
+  const [currentStep, setCurrentStep] = useState(0);
   const [deliveryType, setDeliveryType] = useState<DeliveryType>('surplace');
-  const [clientName, setClientName] = useState('');
-  const [clientPhone, setClientPhone] = useState('');
-  const [clientAddress, setClientAddress] = useState('');
-  const [specialInstructions, setSpecialInstructions] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const [selectedSauces, setSelectedSauces] = useState<string[]>([]);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    address: '',
+    instructions: ''
+  });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({
+    clientName: '',
+    deliveryType: '',
+    totalPrice: '',
+    orderNumber: '',
+    estimatedTime: ''
+  });
   const [selectedBoissons, setSelectedBoissons] = useState<{[key: string]: number}>({});
   const [selectedDesserts, setSelectedDesserts] = useState<{[key: string]: number}>({});
-  const [currentStep, setCurrentStep] = useState<OrderStep>(OrderStep.DELIVERY_QUANTITY);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [orderDetails, setOrderDetails] = useState<any>(null);
+
+  // Refs
+  const modalRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Callbacks
+  const handleClose = useCallback(() => {
+    setCurrentStep(0);
+    setDeliveryType('surplace');
+    setQuantity(1);
+    setSelectedSauces([]);
+    setSelectedIngredients([]);
+    setCustomerInfo({
+      name: '',
+      phone: '',
+      address: '',
+      instructions: ''
+    });
+    onClose();
+  }, [onClose]);
+
+  // Effets
+  useEffect(() => {
+    if (!isOpen) {
+      handleClose();
+    }
+  }, [isOpen, handleClose]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, handleClose]);
+
+  // Early return après tous les hooks
+  if (!isOpen || !item) return null;
 
   const steps = [
     { title: t('orderModal.delivery.title'), color: "amber" },
@@ -88,10 +142,12 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
   const fillTestData = () => {
     setQuantity(2);
     setDeliveryType('livraison');
-    setClientName('John Doe');
-    setClientPhone('0612345678');
-    setClientAddress('123 Rue de la Paix\n75000 Paris');
-    setSpecialInstructions('Sonner à l\'interphone 42B');
+    setCustomerInfo({
+      name: 'John Doe',
+      phone: '0612345678',
+      address: '123 Rue de la Paix\n75000 Paris',
+      instructions: 'Sonner à l\'interphone 42B'
+    });
     setSelectedSauces(['Mayonnaise', 'Ketchup']);
     setSelectedIngredients(['Salade', 'Tomates', 'Oignons']);
     setSelectedBoissons({
@@ -173,12 +229,12 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
     }
 
     // Vérification des champs obligatoires
-    if (!clientName || !clientPhone) {
+    if (!customerInfo.name || !customerInfo.phone) {
       alert('Veuillez remplir tous les champs obligatoires');
       return;
     }
 
-    if (deliveryType === 'livraison' && !clientAddress) {
+    if (deliveryType === 'livraison' && !customerInfo.address) {
       alert('Veuillez renseigner votre adresse pour la livraison');
       return;
     }
@@ -190,7 +246,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
     const estimatedTime = deliveryType === 'livraison' ? '30-45 minutes' : '15-20 minutes';
 
     const details = {
-      clientName,
+      clientName: customerInfo.name,
       deliveryType: deliveryType === 'surplace' ? 'Sur place' : 
                     deliveryType === 'emporter' ? 'À emporter' : 'Livraison',
       totalPrice: calculateTotal(),
@@ -204,7 +260,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
-    onClose();
+    handleClose();
   };
 
   const renderStepContent = () => {
@@ -412,8 +468,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                 </label>
                 <input
                   type="text"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
+                  value={customerInfo.name}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md"
                   required
                 />
@@ -425,8 +481,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                 </label>
                 <input
                   type="tel"
-                  value={clientPhone}
-                  onChange={(e) => setClientPhone(e.target.value)}
+                  value={customerInfo.phone}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md"
                   required
                 />
@@ -438,8 +494,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                     Adresse de livraison *
                   </label>
                   <textarea
-                    value={clientAddress}
-                    onChange={(e) => setClientAddress(e.target.value)}
+                    value={customerInfo.address}
+                    onChange={(e) => setCustomerInfo({ ...customerInfo, address: e.target.value })}
                     className="w-full px-3 py-2 border rounded-md"
                     rows={2}
                     required
@@ -452,8 +508,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                   Instructions spéciales
                 </label>
                 <textarea
-                  value={specialInstructions}
-                  onChange={(e) => setSpecialInstructions(e.target.value)}
+                  value={customerInfo.instructions}
+                  onChange={(e) => setCustomerInfo({ ...customerInfo, instructions: e.target.value })}
                   className="w-full px-3 py-2 border rounded-md"
                   rows={3}
                 />
@@ -480,7 +536,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
                   {t('orderModal.test_data')}
                 </button>
                 <button 
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full text-xl font-bold"
                   aria-label={t('common.close')}
                 >

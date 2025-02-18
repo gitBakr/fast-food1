@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import MenuCard from '../components/MenuCard';
 import OrderModal from '../components/OrderModal';
 import WhyUs from '../components/WhyUs';
+import { useTranslation } from 'react-i18next';
 
 interface MenuItem {
   id: string;
@@ -98,6 +99,7 @@ const featuredItems = [
 ];
 
 const Home = () => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
@@ -116,12 +118,18 @@ const Home = () => {
       <Hero />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">Nos sandwichs populaires</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          {t('menu.popular')}
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredItems.map((item) => (
             <MenuCard 
               key={item.id}
-              {...item}
+              id={item.id}
+              name={t(`menuItems.${item.id}.name`)}
+              description={t(`menuItems.${item.id}.description`)}
+              image={item.image}
+              price={item.price}
               onOrder={() => handleOpenModal(item)}
             />
           ))}
