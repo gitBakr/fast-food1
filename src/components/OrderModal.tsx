@@ -87,7 +87,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
 
   // Refs
   const modalRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   // Callbacks
   const handleClose = useCallback(() => {
