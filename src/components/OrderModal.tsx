@@ -128,6 +128,12 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, item }) => {
     };
   }, [isOpen, handleClose]);
 
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      modalRef.current.focus();
+    }
+  }, [isOpen]);
+
   // Early return après tous les hooks
   if (!isOpen || !item) return null;
 
