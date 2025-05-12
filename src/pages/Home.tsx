@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import Hero from '../components/Hero';
 import MenuCard from '../components/MenuCard';
-import OrderModal from '../components/OrderModal';
 import WhyUs from '../components/WhyUs';
 import { useTranslation } from 'react-i18next';
 
@@ -100,18 +98,6 @@ const featuredItems = [
 
 const Home = () => {
   const { t } = useTranslation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-
-  const handleOpenModal = (item: MenuItem) => {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedItem(null);
-  };
 
   return (
     <div className="flex-1 bg-gradient-to-b from-amber-50 to-white">
@@ -136,12 +122,6 @@ const Home = () => {
       </div>
 
       <WhyUs />
-
-      <OrderModal 
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        item={selectedItem}
-      />
     </div>
   );
 };

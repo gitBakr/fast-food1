@@ -1,19 +1,4 @@
-// import { useState } from 'react';
-// import OrderModal from '../components/OrderModal';
 import { useTranslation } from 'react-i18next';
-
-interface MenuItem {
-  id: string;
-  name: string;
-  type: string;
-  image: string;
-  price: {
-    base: number;
-    supplements: { name: string; price: number; }[];
-  };
-  category: string;
-  description: string;
-}
 
 const MENU_ITEMS = [
   {
@@ -141,18 +126,6 @@ const MENU_ITEMS = [
 
 const Menu = () => {
   const { t } = useTranslation();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-
-  // const handleOpenModal = (item: MenuItem) => {
-  //   setSelectedItem(item);
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedItem(null);
-  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12">
@@ -177,7 +150,6 @@ const Menu = () => {
                     {t('menu.price_from')} {item.price.base.toFixed(2)}{t('menu.currency')}
                   </span>
                   <button
-                    // onClick={() => handleOpenModal(item)}
                     className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed"
                   >
                     {t('common.order')}
@@ -188,14 +160,6 @@ const Menu = () => {
           ))}
         </div>
       </div>
-
-      {/*
-      <OrderModal 
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        item={selectedItem}
-      />
-      */}
     </div>
   );
 };
