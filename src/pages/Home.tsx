@@ -3,19 +3,6 @@ import MenuCard from '../components/MenuCard';
 import WhyUs from '../components/WhyUs';
 import { useTranslation } from 'react-i18next';
 
-interface MenuItem {
-  id: string;
-  name: string;
-  type: string;
-  image: string;
-  price: {
-    base: number;
-    supplements: { name: string; price: number; }[];
-  };
-  category: string;
-  description: string;
-}
-
 const featuredItems = [
   {
     id: 'classique',
