@@ -129,8 +129,8 @@ const Specialites = () => {
                     </span>
                   </div>
                   <button
-                    onClick={() => handleOpenModal(item)}
-                    className="bg-amber-600 text-white px-6 py-3 rounded-lg hover:bg-amber-700 transition-colors font-semibold"
+                    // onClick={() => handleOpenModal(item)}
+                    className="bg-gray-300 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed font-semibold"
                   >
                     {t('common.order')}
                   </button>

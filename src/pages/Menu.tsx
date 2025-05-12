@@ -177,8 +177,8 @@ const Menu = () => {
                     {t('menu.price_from')} {item.price.base.toFixed(2)}{t('menu.currency')}
                   </span>
                   <button
-                    onClick={() => handleOpenModal(item)}
-                    className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+                    // onClick={() => handleOpenModal(item)}
+                    className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed"
                   >
                     {t('common.order')}
                   </button>
