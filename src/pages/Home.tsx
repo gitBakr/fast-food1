@@ -130,7 +130,6 @@ const Home = () => {
               description={t(`menuItems.${item.id}.description`)}
               image={item.image}
               price={item.price}
-              onOrder={() => handleOpenModal(item)}
             />
           ))}
         </div>
