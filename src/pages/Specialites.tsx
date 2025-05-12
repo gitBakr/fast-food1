@@ -81,18 +81,18 @@ const SPECIALITES: MenuItem[] = [
 
 const Specialites = () => {
   const { t } = useTranslation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 
-  const handleOpenModal = (item: MenuItem) => {
-    setSelectedItem(item);
-    setIsModalOpen(true);
-  };
+  // const handleOpenModal = (item: MenuItem) => {
+  //   setSelectedItem(item);
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedItem(null);
-  };
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedItem(null);
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12">
@@ -141,11 +141,13 @@ const Specialites = () => {
         </div>
       </div>
 
+      {/*
       <OrderModal 
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         item={selectedItem}
       />
+      */}
     </div>
   );
 };

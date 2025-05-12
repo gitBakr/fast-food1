@@ -13,7 +13,7 @@ interface MenuCardProps {
     }[];
   };
   description: string;
-  onOrder: () => void;
+  // onOrder: () => void;
 }
 
 const MenuCard = ({ 
@@ -22,7 +22,7 @@ const MenuCard = ({
   image, 
   price, 
   description,
-  onOrder 
+  // onOrder 
 }: MenuCardProps) => {
   const { t } = useTranslation();
   // const { isOrderingEnabled } = useOrder();
