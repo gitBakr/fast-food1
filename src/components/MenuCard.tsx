@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+// import { useOrder } from '../context/OrderContext';
 
 interface MenuCardProps {
   id: string;
@@ -24,6 +25,7 @@ const MenuCard = ({
   onOrder 
 }: MenuCardProps) => {
   const { t } = useTranslation();
+  // const { isOrderingEnabled } = useOrder();
 
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -43,7 +45,7 @@ const MenuCard = ({
         </div>
         <p className="text-gray-600 text-sm mb-3">{description}</p>
         
-        <div className="mb-4 bg-gray-50 rounded-lg p-3">
+        <div className="space-y-2">
           <div className="flex justify-between items-center mb-2">
             <span className="text-gray-700">{t('orderModal.summary.unit_price')}</span>
             <span className="font-medium">{price.base.toFixed(2)}{t('menu.currency')}</span>
@@ -69,8 +71,9 @@ const MenuCard = ({
         </div>
 
         <button
-          onClick={onOrder}
-          className="w-full bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors flex items-center justify-center gap-2"
+          // onClick={onOrder}
+          // disabled={!isOrderingEnabled}
+          className="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-md cursor-not-allowed flex items-center justify-center gap-2"
         >
           <span>{t('common.order')}</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
